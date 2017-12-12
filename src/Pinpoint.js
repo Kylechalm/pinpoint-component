@@ -13,16 +13,33 @@ class Pinpoint extends Component {
       long: 10,
       gpdname: '',
       response: '',
+      map: undefined,
+      marker: undefined,
+      tileLayer: undefined,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onMapRender = this.handleMapRender.bind(this);
+  }
+
+  handleMapRender(map, tileLayer, marker) { 
+    this.setState({
+      map: map,
+      marker: marker,
+      tileLayer: tileLayer,
+    });
   }
 
   handleInputChange(name, value) {
     this.setState({
       [name]: value
     });
+  }
+
+  componentDidUpdate() {
+    const position = [this.state.lat, this.state.long];
+    this.state.marker.setLatLng(position);
   }
 
   handleSubmit() {
@@ -37,16 +54,6 @@ class Pinpoint extends Component {
       (response) => response.json()
     ).then(
       (json) => {
-        // const main = document.querySelector('.pinpoint main');
-        // main.innerHTML = '';
-
-        // for (const key in json) {
-        //   const coordinate = document.createElement('h1');
-        //   coordinate.classList.add(`${key}`);
-        //   coordinate.innerText = `${key.toUpperCase()}: ${json[key]}`;
-
-        //   main.append(coordinate);
-        // }
         this.setState({
           response: json
         });
@@ -66,7 +73,8 @@ class Pinpoint extends Component {
           onSubmit={this.handleSubmit} /> 
         <PinpointMap
           lat={this.state.lat}
-          long={this.state.long} />
+          long={this.state.long}
+          onMapRender={this.onMapRender} />
       </section>
     );
   }
