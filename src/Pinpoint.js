@@ -39,6 +39,8 @@ class Pinpoint extends Component {
 
   componentDidUpdate() {
     const position = [this.state.lat, this.state.long];
+
+    this.state.map.panTo(position);
     this.state.marker.setLatLng(position);
   }
 
@@ -65,16 +67,18 @@ class Pinpoint extends Component {
   render() {
     return (
       <section className="pinpoint">
-        <PinpointForm 
-          lat={this.state.lat}
-          long={this.state.long}
-          gpdname={this.state.gpdname}
-          onInputChange={this.handleInputChange}
-          onSubmit={this.handleSubmit} /> 
         <PinpointMap
           lat={this.state.lat}
           long={this.state.long}
-          onMapRender={this.onMapRender} />
+          onMapRender={this.onMapRender}>
+          <PinpointForm
+            lat={this.state.lat}
+            long={this.state.long}
+            gpdname={this.state.gpdname}
+            onInputChange={this.handleInputChange}
+            onSubmit={this.handleSubmit} />
+
+        </PinpointMap>
       </section>
     );
   }

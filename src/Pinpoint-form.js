@@ -6,7 +6,7 @@ class PinpointForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  
+
   handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -22,7 +22,7 @@ class PinpointForm extends Component {
 
   render() {
     return (
-      <header className="pinpoint__header">
+      <div className="pinpoint__input">
         <form onSubmit={this.handleSubmit}>
           <label>
             Lat:
@@ -50,7 +50,7 @@ class PinpointForm extends Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-      </header>
+      </div>
     );
   }
 }
