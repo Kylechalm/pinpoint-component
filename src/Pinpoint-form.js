@@ -48,7 +48,6 @@ class PinpointForm extends Component {
               value={this.props.gpdname}
               onChange={this.handleChange} />
           </label>
-          <input type="submit" value="Submit" />
         </form>
       </div>
     );

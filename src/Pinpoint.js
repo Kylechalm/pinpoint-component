@@ -19,7 +19,6 @@ class Pinpoint extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.onMapRender = this.handleMapRender.bind(this);
   }
 
@@ -44,7 +43,7 @@ class Pinpoint extends Component {
     this.state.marker.setLatLng(position);
   }
 
-  handleSubmit() {
+  pinpointRequest(){
     const pinpointRequest = PINPOINT_SERVICE + `?latitude=${this.state.lat}&longitude=${this.state.long}&gpd_name=${this.state.gpdname}`;
 
     fetch(pinpointRequest, {
