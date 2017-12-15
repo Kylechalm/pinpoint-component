@@ -3,7 +3,7 @@ import PinpointForm from './Pinpoint-form';
 import PinpointMap from './Pinpoint-map';
 import './App.css';
 
-const PINPOINT_SERVICE = 'http://0.0.0.0/convert';
+const PINPOINT_SERVICE = 'http://0.0.0.0/';
 
 class Pinpoint extends Component {
   constructor(props) {
@@ -12,7 +12,8 @@ class Pinpoint extends Component {
       lat: 0,
       long: 10,
       gpdname: '',
-      response: '',
+      grids: {},
+      response: undefined,
       map: undefined,
       marker: undefined,
       tileLayer: undefined,
@@ -20,6 +21,7 @@ class Pinpoint extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onMapRender = this.handleMapRender.bind(this);
+    this.getPinpointGrids();
   }
 
   handleMapRender(map, tileLayer, marker) { 
@@ -43,8 +45,27 @@ class Pinpoint extends Component {
     this.state.marker.setLatLng(position);
   }
 
+  getPinpointGrids() {
+    const pinpointGetGrids = PINPOINT_SERVICE + `grids`;
+
+    fetch(pinpointGetGrids, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then(
+      (response) => response.json()
+    ).then(
+      (json) => {
+        this.setState({
+          grids: json
+        });
+      }
+    );
+  }
+
   pinpointRequest(){
-    const pinpointRequest = PINPOINT_SERVICE + `?latitude=${this.state.lat}&longitude=${this.state.long}&gpd_name=${this.state.gpdname}`;
+    const pinpointRequest = PINPOINT_SERVICE + `convert?latitude=${this.state.lat}&longitude=${this.state.long}&gpd_name=${this.state.gpdname}`;
 
     fetch(pinpointRequest, {
       method: 'GET',
@@ -58,7 +79,6 @@ class Pinpoint extends Component {
         this.setState({
           response: json
         });
-        console.log(this.state);
       }
     );
   }
@@ -74,6 +94,7 @@ class Pinpoint extends Component {
             lat={this.state.lat}
             long={this.state.long}
             gpdname={this.state.gpdname}
+            grids={this.state.grids}
             onInputChange={this.handleInputChange}
             onSubmit={this.handleSubmit} />
 

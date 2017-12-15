@@ -1,13 +1,46 @@
-.pinpoint__input {
+.pinpoint__form {
   background: rgba(255, 255, 255, .7);
   border-radius: 2px;
   bottom: 10px;
   left: 10px;
+  max-width: 320px;
   padding: 10px;
   position: absolute;
   z-index: 1000;
 }
 
-.pinpoint__input input {
+.pinpoint__form form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.pinpoint__form label {
+  width: 100%;
+}
+
+.pinpoint__form input,
+.pinpoint__form select {
   display: block;
+  margin-bottom: 10px;
+}
+
+.pinpoint__form .latlon {
+  box-sizing: border-box;
+  max-width: 160px;
+}
+
+.pinpoint__form .latlon:first-child {
+  padding-right: 15px;
+}
+
+.pinpoint__form .latlon input {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.pinpoint__form select {
+  background: white;
+  max-width: 320px;
+  width: 100%;
 }

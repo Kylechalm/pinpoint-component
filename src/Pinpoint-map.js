@@ -20,7 +20,7 @@ class PinpointMap extends Component {
       subdomains: 'abcd',
       minZoom: 1,
       maxZoom: 16,
-      ext: 'png' 
+      ext: 'png',
     }).addTo(leafletMap);
     const marker = L.circleMarker(position).addTo(leafletMap);
 
