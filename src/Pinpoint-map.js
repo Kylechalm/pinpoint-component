@@ -1,6 +1,23 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
 
+L.GridLayer.PinpointGridLayer = L.GridLayer.extend({
+  createTile: function(coords){
+    // create a <canvas> element for drawing
+    let tile = L.DomUtil.create('div', 'pinpoint-grid-tile');
+    // setup tile width and height according to the options
+    let size = this.getTileSize();
+    tile.width = size.x;
+    tile.height = size.y;
+    // return the tile so it can be rendered on screen
+    return tile;
+  }
+});
+
+L.gridLayer.pinpointGridLayer = function(opts) {
+    return new L.GridLayer.PinpointGridLayer(opts);
+};
+
 class PinpointMap extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +40,7 @@ class PinpointMap extends Component {
       ext: 'png',
     }).addTo(leafletMap);
     const marker = L.circleMarker(position).addTo(leafletMap);
+    L.gridLayer.pinpointGridLayer().addTo(leafletMap);
 
     this.props.onMapRender(leafletMap, tileLayer, marker);
   }
