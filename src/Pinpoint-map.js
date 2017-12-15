@@ -7,9 +7,11 @@ class PinpointMap extends Component {
 
     this.renderMap = this.renderMap.bind(this);
   }
+
   componentDidMount() {
     this.renderMap();
   }
+
   renderMap() {
     const position = [this.props.lat, this.props.long];
     const leafletMap = L.map('leaflet-container').setView(position, 2);
@@ -18,16 +20,17 @@ class PinpointMap extends Component {
       subdomains: 'abcd',
       minZoom: 1,
       maxZoom: 16,
-      ext: 'png' 
+      ext: 'png',
     }).addTo(leafletMap);
     const marker = L.circleMarker(position).addTo(leafletMap);
 
     this.props.onMapRender(leafletMap, tileLayer, marker);
   }
+
   render() {
     return (
       <div id='leaflet-container'>
-
+        {this.props.children}
       </div>
     );
   }
