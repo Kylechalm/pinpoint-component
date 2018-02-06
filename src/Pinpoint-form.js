@@ -3,9 +3,15 @@ class PinpointForm extends Component {
   constructor(props) {
     super(props);
 
+    this.renderResponse = this.renderResponse.bind(this);
     this.genOptions = this.genOptions.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  renderResponse(response) {
+    if (response){
+      return [<p>X: {response.horizontal}</p>, <p>y: {response.vertical}</p>]
+    }
   }
 
   genOptions() {
@@ -23,19 +29,18 @@ class PinpointForm extends Component {
     const value = target.value;
     const name = target.name;
 
-    this.props.onInputChange(name, value);
-  }
-
-  handleSubmit(event) {
-    this.props.onSubmit();
-    event.preventDefault();
+    this.props.onInputChange(name, value);  
   }
 
   render() {
     return (
       <div className="pinpoint__form">
+        <div className="pinpoint__response">
+         {this.renderResponse(this.props.response)}
+        </div>
+
         <form onSubmit={this.handleSubmit}>
-          <label className="latlon">
+          <label className="latlng">
             Lat:
             <input
               name="lat"
@@ -43,12 +48,12 @@ class PinpointForm extends Component {
               value={this.props.lat}
               onChange={this.handleChange} />
           </label>
-          <label className="latlon">
-            Long:
+          <label className="latlng">
+            Lng:
             <input
-              name="long"
+              name="lng"
               type="number"
-              value={this.props.long}
+              value={this.props.lng}
               onChange={this.handleChange} />
           </label>
           <label>

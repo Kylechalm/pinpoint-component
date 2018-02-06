@@ -10,8 +10,9 @@ class Pinpoint extends Component {
     super(props);
     this.state = {
       lat: 0,
-      long: 10,
-      gpdname: '',
+      lng: 10,
+      cache: [],
+      gpdname: 'EASE2_M01KM',
       grids: {},
       response: undefined,
       map: undefined,
@@ -19,9 +20,19 @@ class Pinpoint extends Component {
       tileLayer: undefined,
     };
 
+    this.handleUserClick = this.handleUserClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onMapRender = this.handleMapRender.bind(this);
     this.getPinpointGrids();
+  }
+
+  handleUserClick(map) {
+    map.on('click', (event) => {
+      this.setState({
+        lat: event.latlng.lat,
+        lng: event.latlng.lng,
+      });
+    });
   }
 
   handleMapRender(map, tileLayer, marker) { 
@@ -39,10 +50,18 @@ class Pinpoint extends Component {
   }
 
   componentDidUpdate() {
-    const position = [this.state.lat, this.state.long];
+    const position = [this.state.lat, this.state.lng];
+    const cache = position.concat([this.state.gpdname]);
 
     this.state.map.panTo(position);
     this.state.marker.setLatLng(position);
+
+    if (cache.some((value, index) => value !== this.state.cache[index])) {
+      this.pinpointRequest();
+      this.setState({
+        cache: cache,
+      })
+    }
   }
 
   getPinpointGrids() {
@@ -65,7 +84,7 @@ class Pinpoint extends Component {
   }
 
   pinpointRequest(){
-    const pinpointRequest = PINPOINT_SERVICE + `convert?latitude=${this.state.lat}&longitude=${this.state.long}&gpd_name=${this.state.gpdname}`;
+    const pinpointRequest = PINPOINT_SERVICE + `convert?latitude=${this.state.lat}&longitude=${this.state.lng}&gpd_name=${this.state.gpdname}`;
 
     fetch(pinpointRequest, {
       method: 'GET',
@@ -86,19 +105,19 @@ class Pinpoint extends Component {
   render() {
     return (
       <section className="pinpoint">
+        <PinpointForm
+          lat={this.state.lat}
+          lng={this.state.lng}
+          gpdname={this.state.gpdname}
+          grids={this.state.grids}
+          response={this.state.response}
+          onInputChange={this.handleInputChange}
+          onSubmit={this.handleSubmit} />
         <PinpointMap
           lat={this.state.lat}
-          long={this.state.long}
-          onMapRender={this.onMapRender}>
-          <PinpointForm
-            lat={this.state.lat}
-            long={this.state.long}
-            gpdname={this.state.gpdname}
-            grids={this.state.grids}
-            onInputChange={this.handleInputChange}
-            onSubmit={this.handleSubmit} />
-
-        </PinpointMap>
+          lng={this.state.lng}
+          onMapRender={this.onMapRender}
+          onUserClick={this.handleUserClick} />
       </section>
     );
   }

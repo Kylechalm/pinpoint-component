@@ -1,3 +1,11 @@
+.pinpoint {
+  position: relative;
+}
+
+.pinpoint-grid-tile {
+  border: .5px solid black;
+}
+
 .pinpoint__form {
   background: rgba(255, 255, 255, .7);
   border-radius: 2px;
@@ -25,16 +33,16 @@
   margin-bottom: 10px;
 }
 
-.pinpoint__form .latlon {
+.pinpoint__form .latlng {
   box-sizing: border-box;
   max-width: 160px;
 }
 
-.pinpoint__form .latlon:first-child {
+.pinpoint__form .latlng:first-child {
   padding-right: 15px;
 }
 
-.pinpoint__form .latlon input {
+.pinpoint__form .latlng input {
   box-sizing: border-box;
   max-width: 100%;
 }
@@ -43,4 +51,9 @@
   background: white;
   max-width: 320px;
   width: 100%;
+}
+
+.pinpoint__form .pinpoint__response {
+  font-size: 18px;
+  font-weight: bold;
 }

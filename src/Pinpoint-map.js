@@ -13,18 +13,14 @@ class PinpointMap extends Component {
   }
 
   renderMap() {
-    const position = [this.props.lat, this.props.long];
+    const position = [this.props.lat, this.props.lng];
     const leafletMap = L.map('leaflet-container').setView(position, 2);
-    const tileLayer = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
-      attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      subdomains: 'abcd',
-      minZoom: 1,
-      maxZoom: 16,
-      ext: 'png',
-    }).addTo(leafletMap);
-    const marker = L.circleMarker(position).addTo(leafletMap);
+    const tileLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(leafletMap);
+    const marker = L.circleMarker(position, {'radius': 5}).addTo(leafletMap);
 
     this.props.onMapRender(leafletMap, tileLayer, marker);
+    this.props.onUserClick(leafletMap);
   }
 
   render() {
